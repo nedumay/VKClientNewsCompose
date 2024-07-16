@@ -13,9 +13,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.Send
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material.icons.rounded.MoreVert
-import androidx.compose.material.icons.rounded.Send
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -45,7 +45,7 @@ fun PostCardVK(
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primary
+            containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 16.dp
@@ -94,19 +94,19 @@ private fun HeaderPost(feedPost: FeedPost){
             Text(
                 text = feedPost.communityName,
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onPrimary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = feedPost.timePost,
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onPrimary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
         Icon(
             imageVector = Icons.Rounded.MoreVert,
             contentDescription = "",
-            tint = MaterialTheme.colorScheme.onPrimary
+            tint = MaterialTheme.colorScheme.onPrimaryContainer
 
         )
     }
@@ -146,13 +146,13 @@ private fun BottomPost(statistics: List<StatisticItem>){
             val viewItem = statistics.getItemByType(StatisticType.VIEWS)
             Text(
                 text = viewItem.count.toString(),
-                color = MaterialTheme.colorScheme.onPrimary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Spacer(modifier = Modifier.width(4.dp))
             Icon(
                 painter = painterResource(id = R.drawable.ic_visibility),
                 contentDescription = "",
-                tint = MaterialTheme.colorScheme.onPrimary
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
         Row(
@@ -162,37 +162,37 @@ private fun BottomPost(statistics: List<StatisticItem>){
             val shareItem = statistics.getItemByType(StatisticType.SHARES)
             Text(
                 text = shareItem.count.toString(),
-                color = MaterialTheme.colorScheme.onPrimary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Spacer(modifier = Modifier.width(4.dp))
             Icon(
-                imageVector = Icons.Rounded.Send,
+                imageVector = Icons.AutoMirrored.Rounded.Send,
                 contentDescription = "",
-                tint = MaterialTheme.colorScheme.onPrimary
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Spacer(modifier = Modifier.width(16.dp))
             val commentsItem = statistics.getItemByType(StatisticType.COMMENTS)
             Text(
                 text = commentsItem.count.toString(),
-                color = MaterialTheme.colorScheme.onPrimary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Spacer(modifier = Modifier.width(4.dp))
             Icon(
                 painter = painterResource(id = R.drawable.chat_bubble_outline),
                 contentDescription = "",
-                tint = MaterialTheme.colorScheme.onPrimary
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Spacer(modifier = Modifier.width(16.dp))
             val likesItem = statistics.getItemByType(StatisticType.LIKES)
             Text(
                 text = likesItem.count.toString(),
-                color = MaterialTheme.colorScheme.onPrimary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Spacer(modifier = Modifier.width(4.dp))
             Icon(
                 imageVector = Icons.Rounded.FavoriteBorder,
                 contentDescription = "",
-                tint = MaterialTheme.colorScheme.onPrimary
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
     }

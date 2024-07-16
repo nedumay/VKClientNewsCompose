@@ -26,7 +26,7 @@ fun TopAppBarPost() {
                 Icon(
                     Icons.Filled.Menu,
                     contentDescription = "",
-                    tint = MaterialTheme.colorScheme.onPrimary
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
         },
@@ -35,7 +35,7 @@ fun TopAppBarPost() {
                 Icon(
                     Icons.Filled.Info,
                     contentDescription = "",
-                    tint = MaterialTheme.colorScheme.onPrimary
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
 
             }
@@ -43,12 +43,12 @@ fun TopAppBarPost() {
                 Icon(
                     Icons.Filled.Search,
                     contentDescription = "",
-                    tint = MaterialTheme.colorScheme.onPrimary
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary
+            containerColor = MaterialTheme.colorScheme.background
         )
 
     )
