@@ -22,6 +22,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -29,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.vknewclient.MainViewModel
 import com.example.vknewclient.domain.FeedPost
 import com.example.vknewclient.ui.bottomAppBar.TopAppBarPost
 import com.example.vknewclient.ui.postcard.PostCardVK
@@ -41,9 +43,8 @@ data class NavItem(
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Preview
 @Composable
-fun MainScreen() {
+fun MainScreen(viewModel: MainViewModel) {
     val listItems = listOf(
         NavItem("Home", Icons.Filled.Home, Icons.Outlined.Home),
         NavItem("Favorite", Icons.Filled.Favorite, Icons.Outlined.FavoriteBorder),
@@ -89,9 +90,17 @@ fun MainScreen() {
                 }
             }
         ) {
+            val feedPost = viewModel.feedPost.observeAsState(FeedPost())
             Column {
                 Spacer(modifier = Modifier.padding(it))
-                PostCardVK(modifier = Modifier.padding(8.dp), feedPost = FeedPost())
+                PostCardVK(
+                    modifier = Modifier.padding(8.dp),
+                    feedPost = feedPost.value,
+                    onLikeClickListener = viewModel::updateCount, // Тоеже самое что и ниже !
+                    onShareClickListener = {viewModel.updateCount(it) },
+                    onViewsClickListener = {viewModel.updateCount(it) },
+                    onCommentClickListener = {viewModel.updateCount(it) }
+                )
             }
 
         }

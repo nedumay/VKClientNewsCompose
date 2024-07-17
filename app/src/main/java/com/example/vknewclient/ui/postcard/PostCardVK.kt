@@ -1,7 +1,9 @@
 package com.example.vknewclient.ui.postcard
 
+import android.content.DialogInterface.OnClickListener
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -40,7 +42,11 @@ import com.example.vknewclient.ui.theme.VKNewClientTheme
 @Composable
 fun PostCardVK(
     modifier: Modifier = Modifier,
-    feedPost: FeedPost
+    feedPost: FeedPost,
+    onLikeClickListener: (StatisticItem) -> Unit,
+    onShareClickListener: (StatisticItem) -> Unit,
+    onViewsClickListener: (StatisticItem) -> Unit,
+    onCommentClickListener: (StatisticItem) -> Unit
 ) {
     Card(
         modifier = modifier,
@@ -59,7 +65,13 @@ fun PostCardVK(
             Spacer(modifier = Modifier.height(8.dp))
             ImagePost(feedPost)
             Spacer(modifier = Modifier.height(8.dp))
-            BottomPost(feedPost.statisticItem)
+            BottomPost(
+                statistics = feedPost.statisticItem,
+                onLikeClickListener = onLikeClickListener,
+                onViewsClickListener = onViewsClickListener,
+                onShareClickListener = onShareClickListener,
+                onCommentClickListener = onCommentClickListener
+            )
         }
     }
 }
@@ -131,7 +143,12 @@ private fun ImagePost(feedPost: FeedPost){
 }
 
 @Composable
-private fun BottomPost(statistics: List<StatisticItem>){
+private fun BottomPost(
+    statistics: List<StatisticItem>,
+    onLikeClickListener: (StatisticItem) -> Unit,
+    onShareClickListener: (StatisticItem) -> Unit,
+    onViewsClickListener: (StatisticItem) -> Unit,
+    onCommentClickListener: (StatisticItem) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -139,9 +156,11 @@ private fun BottomPost(statistics: List<StatisticItem>){
 
     ) {
         Row(
+
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .weight(1f)
+
         ) {
             val viewItem = statistics.getItemByType(StatisticType.VIEWS)
             Text(
@@ -152,7 +171,12 @@ private fun BottomPost(statistics: List<StatisticItem>){
             Icon(
                 painter = painterResource(id = R.drawable.ic_visibility),
                 contentDescription = "",
-                tint = MaterialTheme.colorScheme.onPrimaryContainer
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                modifier = Modifier
+                    .clickable {
+                        onViewsClickListener(viewItem)
+                    }
+
             )
         }
         Row(
@@ -168,7 +192,11 @@ private fun BottomPost(statistics: List<StatisticItem>){
             Icon(
                 imageVector = Icons.AutoMirrored.Rounded.Send,
                 contentDescription = "",
-                tint = MaterialTheme.colorScheme.onPrimaryContainer
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                modifier = Modifier
+                    .clickable {
+                        onShareClickListener(shareItem)
+                    }
             )
             Spacer(modifier = Modifier.width(16.dp))
             val commentsItem = statistics.getItemByType(StatisticType.COMMENTS)
@@ -180,7 +208,11 @@ private fun BottomPost(statistics: List<StatisticItem>){
             Icon(
                 painter = painterResource(id = R.drawable.chat_bubble_outline),
                 contentDescription = "",
-                tint = MaterialTheme.colorScheme.onPrimaryContainer
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                modifier = Modifier
+                    .clickable {
+                        onCommentClickListener(commentsItem)
+                    }
             )
             Spacer(modifier = Modifier.width(16.dp))
             val likesItem = statistics.getItemByType(StatisticType.LIKES)
@@ -192,7 +224,11 @@ private fun BottomPost(statistics: List<StatisticItem>){
             Icon(
                 imageVector = Icons.Rounded.FavoriteBorder,
                 contentDescription = "",
-                tint = MaterialTheme.colorScheme.onPrimaryContainer
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                modifier = Modifier
+                    .clickable {
+                        onLikeClickListener(likesItem)
+                    }
             )
         }
     }
@@ -206,7 +242,7 @@ private fun List<StatisticItem>.getItemByType(type: StatisticType): StatisticIte
 @Composable
 fun PreviewLight(){
     VKNewClientTheme(darkTheme = false) {
-        PostCardVK(feedPost = FeedPost())
+        PostCardVK(feedPost = FeedPost(), onLikeClickListener = {}, onShareClickListener = {}, onViewsClickListener = {}, onCommentClickListener = {})
     }
 }
 
@@ -214,6 +250,6 @@ fun PreviewLight(){
 @Composable
 fun PreviewDark(){
     VKNewClientTheme(darkTheme = true) {
-        PostCardVK(feedPost = FeedPost())
+        PostCardVK(feedPost = FeedPost(), onLikeClickListener = {}, onShareClickListener = {}, onViewsClickListener = {}, onCommentClickListener = {})
     }
 }
