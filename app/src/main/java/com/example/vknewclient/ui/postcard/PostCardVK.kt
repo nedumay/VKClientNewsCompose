@@ -54,7 +54,7 @@ fun PostCardVK(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 16.dp
+            defaultElevation = 4.dp
         )
     ) {
         Column(
