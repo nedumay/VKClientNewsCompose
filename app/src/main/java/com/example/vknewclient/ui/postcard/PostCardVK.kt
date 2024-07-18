@@ -1,6 +1,5 @@
 package com.example.vknewclient.ui.postcard
 
-import android.content.DialogInterface.OnClickListener
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -38,6 +37,7 @@ import com.example.vknewclient.domain.FeedPost
 import com.example.vknewclient.domain.StatisticItem
 import com.example.vknewclient.domain.StatisticType
 import com.example.vknewclient.ui.theme.VKNewClientTheme
+
 
 @Composable
 fun PostCardVK(

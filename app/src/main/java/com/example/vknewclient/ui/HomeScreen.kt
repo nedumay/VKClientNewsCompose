@@ -1,5 +1,6 @@
 package com.example.vknewclient.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,6 +15,8 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.vknewclient.MainViewModel
+import com.example.vknewclient.domain.FeedPost
+import com.example.vknewclient.ui.comments.CommentsScreen
 import com.example.vknewclient.ui.postcard.PostCardVK
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -22,7 +25,38 @@ fun HomeScreen(
     viewModel: MainViewModel,
     paddingValues: PaddingValues
 ) {
-    val feedPosts = viewModel.feedPosts.observeAsState(listOf())
+    val screenState = viewModel.screenState.observeAsState(HomeScreenState.Loading)
+    when (val currentState = screenState.value) {
+        is HomeScreenState.Posts -> {
+            FeedPost(
+                posts = currentState.posts,
+                viewModel = viewModel,
+                paddingValues = paddingValues
+            )
+        }
+
+        is HomeScreenState.Comments -> {
+            CommentsScreen(
+                feedPost = currentState.feedPost,
+                comments = currentState.comments,
+                onBackPressed = { viewModel.closeComments() }
+            )
+            BackHandler {
+                viewModel.closeComments()
+            }
+        }
+
+        HomeScreenState.Loading -> {}
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@Composable
+fun FeedPost(
+    posts: List<FeedPost>,
+    viewModel: MainViewModel,
+    paddingValues: PaddingValues
+) {
     LazyColumn(
         contentPadding = PaddingValues(
             top = paddingValues.calculateTopPadding() + 8.dp,
@@ -32,10 +66,10 @@ fun HomeScreen(
         ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(feedPosts.value, key = { it.id }) { feedPost ->
-            /**
-             * В новых версихя Compose удаление через SwipeToDismissBox
-             */
+        items(
+            items = posts,
+            key = { it.id }
+        ) { feedPost ->
             /**
              * В новых версихя Compose удаление через SwipeToDismissBox
              */
@@ -70,11 +104,9 @@ fun HomeScreen(
                             item = statisticItem
                         )
                     },
-                    onCommentClickListener = { statisticItem ->
-                        viewModel.updateCount(
-                            feedPost = feedPost,
-                            item = statisticItem
-                        )
+                    onCommentClickListener = {
+                        viewModel.showComments(feedPost = feedPost)
+
                     }
                 )
             }

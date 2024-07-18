@@ -10,6 +10,10 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.vknewclient.navigation.Screen
 
+/**
+ * Класс для списка BottomNavigation
+ */
+
 sealed class NavItem(
     val screen: Screen,
     val title: String,
