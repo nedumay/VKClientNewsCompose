@@ -59,7 +59,9 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation ("androidx.compose.runtime:runtime-livedata:1.6.8")
+    implementation(libs.androidx.runtime.livedata)
+    // Библиотека помогает создать граф навигации в приложении
+    implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.vknewclient.domain.FeedPost
 import com.example.vknewclient.domain.StatisticItem
 import com.example.vknewclient.domain.StatisticType
-import java.util.Collections.replaceAll
+import com.example.vknewclient.ui.NavItem
 
 class MainViewModel : ViewModel() {
 
@@ -36,6 +36,7 @@ class MainViewModel : ViewModel() {
 
     private val _feedPosts = MutableLiveData<List<FeedPost>>(initialList)
     val feedPosts: LiveData<List<FeedPost>> = _feedPosts
+
 
     fun deletePost(feedPost: FeedPost) {
         val modelList = _feedPosts.value?.toMutableList() ?: mutableListOf()
