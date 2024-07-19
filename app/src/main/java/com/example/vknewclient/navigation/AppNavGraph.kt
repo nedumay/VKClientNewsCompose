@@ -8,18 +8,21 @@ import androidx.navigation.compose.composable
 @Composable
 fun AppNavGraph(
     navHostController: NavHostController,
-    homeScreenContent: @Composable () -> Unit,
+    newsFeedPostScreenContent: @Composable () -> Unit,
     favoritesScreenContent: @Composable () -> Unit,
-    profileScreenContent: @Composable () -> Unit
+    profileScreenContent: @Composable () -> Unit,
+    commentsScreenContent: @Composable () -> Unit
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.NewsFeed.route,
+        startDestination = Screen.Home.route,
     ) {
+        // Отдельный граф для экрана HOME
+        homeScreenNavGraph(
+            newsFeedPostScreenContent = newsFeedPostScreenContent,
+            commentsScreenContent = commentsScreenContent
+        )
         // Для создания направления используется эта функция
-        composable(route = Screen.NewsFeed.route) {
-            homeScreenContent()
-        }
         composable(route = Screen.Favorites.route) {
             favoritesScreenContent()
         }

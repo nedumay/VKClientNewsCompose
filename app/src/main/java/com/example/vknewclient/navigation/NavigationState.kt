@@ -2,6 +2,7 @@ package com.example.vknewclient.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
@@ -15,8 +16,8 @@ class NavigationState(
     fun navigateTo(route: String) {
 
         navHostController.navigate(route) {
-            // Удаляет в бекстеке все скрины до домашнего экрана
-            popUpTo(navHostController.graph.startDestinationId) {
+            // Удаляет в бекстеке все скрины до домашнего экрана (сейчас работате до вложенного графа)
+            popUpTo(navHostController.graph.findStartDestination().id) {
                 // Сохраняет стейты для всех удаленных скринов
                 saveState = true
             }
@@ -26,6 +27,11 @@ class NavigationState(
             restoreState = true
 
         }
+    }
+
+    // Функция для перехода на экран комментариев (пользоволяет не выходить из него, при переходах на табах)
+    fun navigateToComments() {
+        navHostController.navigate(Screen.Comments.route)
     }
 }
 

@@ -21,7 +21,8 @@ sealed class NavItem(
     val unselectedIcon: ImageVector
 ){
 
-    object Home : NavItem(screen = Screen.NewsFeed, title = "NewsFeed", Icons.Filled.Home, Icons.Outlined.Home)
+    object Home :
+        NavItem(screen = Screen.Home, title = "NewsFeed", Icons.Filled.Home, Icons.Outlined.Home)
     object Favorites : NavItem(screen = Screen.Favorites, title = "Favorite", Icons.Filled.Favorite, Icons.Outlined.FavoriteBorder)
     object Profile : NavItem(screen = Screen.Profile, title = "Profile", Icons.Filled.Person, Icons.Outlined.Person)
 }

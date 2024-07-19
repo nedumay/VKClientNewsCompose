@@ -1,4 +1,3 @@
-
 package com.example.vknewclient.ui.mainScreen
 
 import android.annotation.SuppressLint
@@ -15,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.vknewclient.domain.FeedPost
 import com.example.vknewclient.navigation.AppNavGraph
@@ -38,7 +38,7 @@ fun MainScreen() {
                 // Хранит текущий открытый экран
                 val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
                 // Хранит маршрут
-                val currentRout = navBackStackEntry?.destination?.route
+
 
                 val items = listOf(
                     NavItem.Home,
@@ -47,10 +47,18 @@ fun MainScreen() {
                 )
 
                 items.forEach { item ->
+                    // Данная проверка необходима для того, чтобы дочерние экраны привязать к родительским
+                    val selected = navBackStackEntry?.destination?.hierarchy?.any {
+                        it.route == item.screen.route
+                    } ?: false
                     NavigationBarItem(
-                        selected = currentRout == item.screen.route,
-                        onClick = { navigationState.navigateTo(route = item.screen.route) },
+                        selected = selected,
+                        onClick = {
+                            // Добавляем проверку для того, чтобы не переходить заново на тот экран, где уже находимся
+                            if (!selected) navigationState.navigateTo(route = item.screen.route)
+                        },
                         icon = {
+                            val currentRout = navBackStackEntry?.destination?.route
                             Icon(
                                 imageVector = if (currentRout == item.screen.route) item.selectedIcon
                                 else item.unselectedIcon, contentDescription = item.title
@@ -64,28 +72,29 @@ fun MainScreen() {
     ) { paddingValues ->
         AppNavGraph(
             navHostController = navigationState.navHostController,
-            homeScreenContent = {
-                if (commentsToPost.value == null) {
-                    HomeScreen(
-                        paddingValues,
-                        onCommentClickListener = {
-                            commentsToPost.value = it
-                        }
-                    )
-                } else {
-                    CommentsScreen(
-                        onBackPressed = {
-                            commentsToPost.value = null
-                        },
-                        feedPost = commentsToPost.value!!
-                    )
-                }
+            newsFeedPostScreenContent = {
+                HomeScreen(
+                    paddingValues,
+                    onCommentClickListener = {
+                        commentsToPost.value = it
+                        // Передаем маршрут комментариев
+                        navigationState.navigateToComments()
+                    }
+                )
             },
             favoritesScreenContent = {
                 Text(
                     modifier = Modifier.padding(paddingValues),
                     text = "Favorites",
                     color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            },
+            commentsScreenContent = {
+                CommentsScreen(
+                    onBackPressed = {
+                        navigationState.navHostController.popBackStack()
+                    },
+                    feedPost = commentsToPost.value!!
                 )
             },
             profileScreenContent = {
