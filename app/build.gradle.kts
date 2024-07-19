@@ -62,6 +62,8 @@ dependencies {
     implementation(libs.androidx.runtime.livedata)
     // Библиотека помогает создать граф навигации в приложении
     implementation(libs.androidx.navigation.compose)
+    // Библиотека помогает легко создать viewmodels
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

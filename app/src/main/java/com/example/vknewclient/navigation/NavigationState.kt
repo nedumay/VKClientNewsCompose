@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
 /**
- * Вся навигация вынесена из MainScreen.kt сюда
+ * Вся навигация вынесена из VKNewsMainScreen.kt сюда
  */
 
 class NavigationState(

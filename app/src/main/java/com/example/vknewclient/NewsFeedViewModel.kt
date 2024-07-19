@@ -4,12 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.vknewclient.domain.FeedPost
-import com.example.vknewclient.domain.PostComments
 import com.example.vknewclient.domain.StatisticItem
 import com.example.vknewclient.domain.StatisticType
-import com.example.vknewclient.ui.HomeScreenState
+import com.example.vknewclient.ui.NewsFeedScreenState
 
-class MainViewModel : ViewModel() {
+class NewsFeedViewModel : ViewModel() {
 
     /**
      * Инициализация списка количество 20 шт
@@ -35,34 +34,23 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    private val comments = mutableListOf<PostComments>().apply {
-        repeat(20) {
-            add(
-                PostComments(id = it)
-            )
-        }
-    }
+    private val initialState = NewsFeedScreenState.Posts(initialList)
 
-    private val initialState = HomeScreenState.Posts(initialList)
-
-    private val _screenState = MutableLiveData<HomeScreenState>(initialState)
-    val screenState: LiveData<HomeScreenState> = _screenState
-
-    private var savedState: HomeScreenState = initialState
-
+    private val _screenState = MutableLiveData<NewsFeedScreenState>(initialState)
+    val screenState: LiveData<NewsFeedScreenState> = _screenState
 
     fun deletePost(feedPost: FeedPost) {
         val currentState = _screenState.value
-        if (currentState !is HomeScreenState.Posts) return
+        if (currentState !is NewsFeedScreenState.Posts) return
         val modelList = currentState.posts.toMutableList()
         modelList.remove(feedPost)
-        _screenState.value = HomeScreenState.Posts(modelList)
+        _screenState.value = NewsFeedScreenState.Posts(modelList)
     }
 
 
     fun updateCount(feedPost: FeedPost, item: StatisticItem) {
         val currentState = _screenState.value
-        if (currentState !is HomeScreenState.Posts) return
+        if (currentState !is NewsFeedScreenState.Posts) return
 
         val oldPost = currentState.posts.toMutableList()
 
@@ -81,16 +69,6 @@ class MainViewModel : ViewModel() {
                 else it
             }
         }
-        _screenState.value = HomeScreenState.Posts(newPosts)
+        _screenState.value = NewsFeedScreenState.Posts(newPosts)
     }
-
-    fun showComments(feedPost: FeedPost) {
-        savedState = _screenState.value ?: initialState
-        _screenState.value = HomeScreenState.Comments(comments = comments, feedPost = feedPost)
-    }
-
-    fun closeComments() {
-        _screenState.value = savedState
-    }
-
 }
