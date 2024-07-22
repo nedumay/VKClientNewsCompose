@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     // Библиотека помогает легко создать viewmodels
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation("com.google.code.gson:gson:2.10.1")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

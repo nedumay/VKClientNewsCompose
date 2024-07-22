@@ -18,18 +18,23 @@ import com.example.vknewclient.NewsFeedViewModel
 import com.example.vknewclient.domain.FeedPost
 import com.example.vknewclient.ui.postcard.PostCardVK
 
+/**
+ *  Домашний экран
+ *  Принимает: параметры для отступов и слушатель кликов для перехода на экран комментариев
+ */
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(paddingValues: PaddingValues, onCommentClickListener: (FeedPost) -> Unit) {
-
-    // Создание экземпляра viewModel при помощи библиотеки
+    // Создание экземпляра viewModel при помощи библиотеки libs.androidx.lifecycle.viewmodel.compose
     val viewModel: NewsFeedViewModel = viewModel()
-
+    // Создаем экземпляр screenState для сохранения состояния экрана
     val screenState = viewModel.screenState.observeAsState(NewsFeedScreenState.Loading)
-
+    // Получаем значение состояния экран и выполняем действия по нему
     when (val currentState = screenState.value) {
         is NewsFeedScreenState.Posts -> {
-            FeedPost(
+            // Выполняется функция отображения постов
+            LoadFeedPost(
                 posts = currentState.posts,
                 viewModel = viewModel,
                 paddingValues = paddingValues,
@@ -37,15 +42,19 @@ fun HomeScreen(paddingValues: PaddingValues, onCommentClickListener: (FeedPost) 
             )
         }
 
-        NewsFeedScreenState.Loading -> {
+        NewsFeedScreenState.Loading -> {}
 
-        }
+        NewsFeedScreenState.Error -> {}
     }
 }
 
+/**
+ * Функция отображения постов
+ * Принимает: список постов, viewModel, отступы, слушатель перехода на экран комментариев
+ */
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun FeedPost(
+fun LoadFeedPost(
     posts: List<FeedPost>,
     viewModel: NewsFeedViewModel,
     paddingValues: PaddingValues,
@@ -66,6 +75,7 @@ fun FeedPost(
         ) { feedPost ->
             /**
              * В новых версихя Compose удаление через SwipeToDismissBox
+             * key = { it.id } необходим, чтобы id поста совпадал с id item, и корректно удалялся пост
              */
             val dismissState = rememberSwipeToDismissBoxState()
             SwipeToDismissBox(
@@ -75,6 +85,7 @@ fun FeedPost(
                 enableDismissFromEndToStart = true,
                 enableDismissFromStartToEnd = false
             ) {
+                // Проверка свайпа текущего элемента
                 if (dismissState.currentValue == SwipeToDismissBoxValue.EndToStart) {
                     viewModel.deletePost(feedPost)
                 }

@@ -14,6 +14,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.vknewclient.domain.FeedPost
 
+/**
+ * Функция для создания верхней части
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopAppBarPost(

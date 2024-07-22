@@ -19,17 +19,20 @@ import com.example.vknewclient.ui.HomeScreen
 import com.example.vknewclient.ui.NavItem
 import com.example.vknewclient.ui.comments.CommentsScreen
 
+/**
+ * Функция выводит главный экран приложения
+ */
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreen() {
+    // Запоминаем стейт навигации приложения
     val navigationState = rememberNavigationState()
-
     Scaffold(
         bottomBar = {
             NavigationBar {
                 // Хранит текущий открытый экран
                 val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
-
+                // Лист хранения элементов навигации
                 val items = listOf(
                     NavItem.Home,
                     NavItem.Favorites,
@@ -48,6 +51,7 @@ fun MainScreen() {
                             if (!selected) navigationState.navigateTo(route = item.screen.route)
                         },
                         icon = {
+                            // Проверка и установка иконки в зависимости от текущего экрана
                             val currentRout = navBackStackEntry?.destination?.route
                             Icon(
                                 imageVector = if (currentRout == item.screen.route) item.selectedIcon
@@ -66,7 +70,7 @@ fun MainScreen() {
                 HomeScreen(
                     paddingValues,
                     onCommentClickListener = {
-                        // Передаем маршрут комментариев
+                        // Передаем маршрут для перехода на экран с комментариями
                         navigationState.navigateToComments(it)
                     }
                 )

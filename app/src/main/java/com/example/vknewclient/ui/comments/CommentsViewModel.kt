@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModel
 import com.example.vknewclient.domain.FeedPost
 import com.example.vknewclient.domain.PostComments
 
+/**
+ * Отдельная ViewModel для экрана комментариев
+ */
 class CommentsViewModel(feedPost: FeedPost) : ViewModel() {
 
     private val _screenState = MutableLiveData<CommentsScreenState>(CommentsScreenState.Loading)

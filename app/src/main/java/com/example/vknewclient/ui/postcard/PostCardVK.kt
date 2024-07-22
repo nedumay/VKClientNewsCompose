@@ -38,6 +38,9 @@ import com.example.vknewclient.domain.StatisticItem
 import com.example.vknewclient.domain.StatisticType
 import com.example.vknewclient.ui.theme.VKNewClientTheme
 
+/**
+ * Функция для создания карточки поста
+ */
 
 @Composable
 fun PostCardVK(
@@ -76,6 +79,9 @@ fun PostCardVK(
     }
 }
 
+/**
+ * Функция для создания шапки поста
+ */
 @Composable
 private fun HeaderPost(feedPost: FeedPost){
     Row(
@@ -124,6 +130,9 @@ private fun HeaderPost(feedPost: FeedPost){
     }
 }
 
+/**
+ * Функция для создания изображения и текста поста
+ */
 @Composable
 private fun ImagePost(feedPost: FeedPost){
     Text(
@@ -142,6 +151,9 @@ private fun ImagePost(feedPost: FeedPost){
     )
 }
 
+/**
+ * Функция для создания нижней части поста
+ */
 @Composable
 private fun BottomPost(
     statistics: List<StatisticItem>,
@@ -234,6 +246,9 @@ private fun BottomPost(
     }
 }
 
+/**
+ * Экстеншен функция для получения статистики по типу: просмотры, лайки и т.д.
+ */
 private fun List<StatisticItem>.getItemByType(type: StatisticType): StatisticItem {
     return this.find { it.type == type } ?: throw IllegalArgumentException("No item with type $type")
 }

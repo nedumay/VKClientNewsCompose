@@ -17,6 +17,9 @@ import com.example.vknewclient.domain.FeedPost
 import com.example.vknewclient.domain.PostComments
 import com.example.vknewclient.ui.bottomAppBar.TopAppBarPost
 
+/**
+ * Функция для создания экрана комментариев
+ */
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable

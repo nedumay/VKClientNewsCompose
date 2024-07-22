@@ -11,6 +11,7 @@ import com.example.vknewclient.ui.NewsFeedScreenState
 class NewsFeedViewModel : ViewModel() {
 
     /**
+     * Жесткое создание списка для тестирования!
      * Инициализация списка количество 20 шт
      */
     private val initialList = mutableListOf<FeedPost>().apply {
@@ -34,6 +35,7 @@ class NewsFeedViewModel : ViewModel() {
         }
     }
 
+    // Инициализация стейта экрана, передается список
     private val initialState = NewsFeedScreenState.Posts(initialList)
 
     private val _screenState = MutableLiveData<NewsFeedScreenState>(initialState)

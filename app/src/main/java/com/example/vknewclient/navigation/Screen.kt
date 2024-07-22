@@ -1,7 +1,12 @@
 package com.example.vknewclient.navigation
 
+import android.net.Uri
 import com.example.vknewclient.domain.FeedPost
+import com.google.gson.Gson
 
+/**
+ * Класс перечисления экранов для навигации
+ */
 sealed class Screen(
     val route: String
 ) {
@@ -15,7 +20,9 @@ sealed class Screen(
         private const val ROUTE_FOR_ARGS = "comments"
 
         fun getRouteWithArgs(feedPost: FeedPost): String {
-            return "$ROUTE_FOR_ARGS/${feedPost.id}"
+            // Преобразуем в JSON
+            val feedPostJson = Gson().toJson(feedPost)
+            return "$ROUTE_FOR_ARGS/${feedPostJson.encode()}"
             // /${Uri.encode(feedPost.contextText)} --> позволяет передавать аргумент с различными спец символами!!
         }
     }
@@ -23,15 +30,20 @@ sealed class Screen(
 
     companion object {
 
-        const val KEY_FEED_POST_ID = "feed_post_id"
+        const val KEY_FEED_POST = "feed_post"
 
         const val ROUTE_PROFILE = "profile_screen"
         const val ROUTE_FAVORITES = "favorites_screen"
         const val ROUTE_HOME = "home_screen"
 
         // Добавляем маршруты для вложенного графа HOME
-        const val ROUTE_COMMENTS = "comments/{$KEY_FEED_POST_ID}"
+        const val ROUTE_COMMENTS = "comments/{$KEY_FEED_POST}"
         const val ROUTE_NEWS_FEED = "news_feed_screen"
 
+    }
+
+    // Можем создать свою экстеншен функцию с декодированием аргументов
+    fun String.encode(): String {
+        return Uri.encode(this)
     }
 }

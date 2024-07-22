@@ -19,7 +19,9 @@ import androidx.compose.ui.unit.dp
 import com.example.vknewclient.domain.PostComments
 import com.example.vknewclient.ui.theme.VKNewClientTheme
 
-
+/**
+ * Функция для создания карточки комментария
+ */
 @Composable
 fun CommentCardVK(
     modifier: Modifier,
