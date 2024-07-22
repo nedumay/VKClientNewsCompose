@@ -2,8 +2,11 @@ package com.example.vknewclient.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.navArgument
+import com.example.vknewclient.domain.FeedPost
 
 
 /**
@@ -13,7 +16,7 @@ import androidx.navigation.compose.navigation
 
 fun NavGraphBuilder.homeScreenNavGraph(
     newsFeedPostScreenContent: @Composable () -> Unit,
-    commentsScreenContent: @Composable () -> Unit
+    commentsScreenContent: @Composable (FeedPost) -> Unit
 ) {
     navigation(
         startDestination = Screen.NewsFeed.route,
@@ -22,8 +25,19 @@ fun NavGraphBuilder.homeScreenNavGraph(
         composable(route = Screen.NewsFeed.route) {
             newsFeedPostScreenContent()
         }
-        composable(Screen.Comments.route) {
-            commentsScreenContent()
+        // Получаем параметры в графе навигации
+        composable(
+            route = Screen.Comments.route,
+            // Данная строка помогает сразу переобразовывать типы. В данном случае из String в Int
+            arguments = listOf(
+                navArgument(Screen.KEY_FEED_POST_ID) {
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            // arguments передает String
+            val feedPostId = it.arguments?.getInt(Screen.KEY_FEED_POST_ID) ?: 0
+            commentsScreenContent(FeedPost(id = feedPostId))
         }
     }
 }

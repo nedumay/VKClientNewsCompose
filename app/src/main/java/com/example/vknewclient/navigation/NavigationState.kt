@@ -5,6 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.vknewclient.domain.FeedPost
 
 /**
  * Вся навигация вынесена из VKNewsMainScreen.kt сюда
@@ -30,8 +31,9 @@ class NavigationState(
     }
 
     // Функция для перехода на экран комментариев (пользоволяет не выходить из него, при переходах на табах)
-    fun navigateToComments() {
-        navHostController.navigate(Screen.Comments.route)
+    // Передача параметров происходит с помощью getRouteWithArgs(параметр)
+    fun navigateToComments(feedPost: FeedPost) {
+        navHostController.navigate(Screen.Comments.getRouteWithArgs(feedPost))
     }
 }
 

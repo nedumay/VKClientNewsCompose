@@ -9,14 +9,10 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.vknewclient.domain.FeedPost
 import com.example.vknewclient.navigation.AppNavGraph
 import com.example.vknewclient.navigation.rememberNavigationState
 import com.example.vknewclient.ui.HomeScreen
@@ -28,17 +24,11 @@ import com.example.vknewclient.ui.comments.CommentsScreen
 fun MainScreen() {
     val navigationState = rememberNavigationState()
 
-    val commentsToPost: MutableState<FeedPost?> = remember {
-        mutableStateOf(null)
-    }
-
     Scaffold(
         bottomBar = {
             NavigationBar {
                 // Хранит текущий открытый экран
                 val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
-                // Хранит маршрут
-
 
                 val items = listOf(
                     NavItem.Home,
@@ -76,9 +66,8 @@ fun MainScreen() {
                 HomeScreen(
                     paddingValues,
                     onCommentClickListener = {
-                        commentsToPost.value = it
                         // Передаем маршрут комментариев
-                        navigationState.navigateToComments()
+                        navigationState.navigateToComments(it)
                     }
                 )
             },
@@ -89,12 +78,12 @@ fun MainScreen() {
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             },
-            commentsScreenContent = {
+            commentsScreenContent = { feedPost ->
                 CommentsScreen(
                     onBackPressed = {
                         navigationState.navHostController.popBackStack()
                     },
-                    feedPost = commentsToPost.value!!
+                    feedPost = feedPost
                 )
             },
             profileScreenContent = {
